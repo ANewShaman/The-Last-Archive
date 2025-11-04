@@ -215,35 +215,31 @@ const App: React.FC = () => {
     const typeMessage = useCallback(async (text: string, type: LogEntry['type'] = 'ai', delay: number = 60) => {
         const newEntryId = logIdCounter.current++;
         if (isMounted.current) {
+            // Add an empty placeholder to the log
             setTerminalLog(prev => [...prev, { id: newEntryId, text: '', type }]);
         }
+    
+        // A short delay to allow React to render the new empty log entry
         await sleep(0); 
-        const entryElement = document.getElementById(`log-entry-${newEntryId}`);
-        const logContainer = document.getElementById('terminal-log');
-        if (!entryElement || !logContainer) {
-            if (isMounted.current) {
-                setTerminalLog(prev => {
-                    const newLog = [...prev];
-                    const entry = newLog.find(e => e.id === newEntryId);
-                    if (entry) entry.text = text;
-                    return newLog;
-                });
-            }
-            return;
-        }
+    
+        let currentText = '';
         for (const char of text) {
             if (!isMounted.current) return;
-            entryElement.textContent += char;
-            logContainer.scrollTop = logContainer.scrollHeight;
+            currentText += char;
+            // Update the state with each new character
+            if (isMounted.current) {
+                setTerminalLog(prevLog =>
+                    prevLog.map(entry =>
+                        entry.id === newEntryId ? { ...entry, text: currentText } : entry
+                    )
+                );
+            }
+            // Manually scroll to keep the view at the bottom
+            const logContainer = document.getElementById('terminal-log');
+            if (logContainer) {
+                logContainer.scrollTop = logContainer.scrollHeight;
+            }
             await sleep(delay);
-        }
-        if (isMounted.current) {
-            setTerminalLog(prev => {
-                const newLog = [...prev];
-                const entry = newLog.find(e => e.id === newEntryId);
-                if (entry) entry.text = text;
-                return newLog;
-            });
         }
     }, []);
     
@@ -877,8 +873,9 @@ const App: React.FC = () => {
         for (let i = 0; i < CURSED_MENU.length; i++) {
             if (!isMounted.current) return;
             const meme = CURSED_MENU[i];
-            await typeMessage(`[${i + 1}] ${meme.file}`);
-            await sleep(50);
+            // Use addToLog for instant line display
+            addToLog({ text: `[${i + 1}] ${meme.file}`, type: 'ai' });
+            await sleep(25); // Faster line-by-line display
         }
         
         if (!isMounted.current) return;
@@ -1123,8 +1120,9 @@ const App: React.FC = () => {
             
             for (let i = 0; i < NOBLE_CHOICES.length; i++) {
                 if (!isMounted.current) return;
-                await typeMessage(`[${i + 1}] ${NOBLE_CHOICES[i].text}`);
-                await sleep(100);
+                // Use addToLog for instant line display
+                addToLog({ text: `[${i + 1}] ${NOBLE_CHOICES[i].text}`, type: 'ai' });
+                await sleep(25); // Faster line-by-line display
             }
             if (!isMounted.current) return;
             addToLog({ text: "", type: 'ai' });
@@ -1174,7 +1172,6 @@ const App: React.FC = () => {
                 {gameState.showArrivalNotice ? (
                     <ArrivalNotice onComplete={() => {
                         setGameState(prev => ({ ...prev, showArrivalNotice: false, introSequenceFinished: true }));
-                        toggleWindow('netfeed');
                     }} />
                 ) : (
                     <>
