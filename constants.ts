@@ -60,6 +60,12 @@ export const INITIAL_WINDOWS_STATE: Record<WindowId, WindowState> = {
         position: { x: 300, y: 100 },
         size: { width: 400, height: 450 },
         zIndex: 10,
+    },
+    playWithMe: {
+        isOpen: false,
+        position: { x: 400, y: 120 },
+        size: { width: 350, height: 450 },
+        zIndex: 11,
     }
 };
 
