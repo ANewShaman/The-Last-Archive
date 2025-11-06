@@ -82,14 +82,14 @@ const PlayWithMe: React.FC<PlayWithMeProps> = ({ onComplete, onLose }) => {
     const getAIMove = useCallback((currentBoard: BoardState): number | number[] => {
         const emptyIndices = currentBoard.map((v, i) => v === null ? i : null).filter(v => v !== null) as number[];
 
-        // 1. AI win
+        // 1. AI win: Check if AI can make a winning move.
         for (const index of emptyIndices) {
             const tempBoard = [...currentBoard];
             tempBoard[index] = 'O';
             if (calculateWinner(tempBoard) === 'O') return index;
         }
 
-        // 2. Block player win
+        // 2. Block player win: Check if player is about to win and block them.
         for (const index of emptyIndices) {
             const tempBoard = [...currentBoard];
             tempBoard[index] = 'X';
@@ -101,15 +101,35 @@ const PlayWithMe: React.FC<PlayWithMeProps> = ({ onComplete, onLose }) => {
              setIsCheating(true);
              setTimeout(() => setIsCheating(false), 300);
              setDialogue("Hehe, optimization is not cheating 😏");
-             const move1 = emptyIndices.splice(Math.floor(Math.random() * emptyIndices.length), 1)[0];
-             const move2 = emptyIndices.splice(Math.floor(Math.random() * emptyIndices.length), 1)[0];
+             const tempIndices = [...emptyIndices];
+             const move1 = tempIndices.splice(Math.floor(Math.random() * tempIndices.length), 1)[0];
+             const move2 = tempIndices.splice(Math.floor(Math.random() * tempIndices.length), 1)[0];
              return [move1, move2];
         }
 
-        // 4. Random
-        return emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
+        // 4. Strategic move: Prioritize center, then corners, then sides.
+        if (emptyIndices.includes(4)) {
+            return 4; // Take the center
+        }
 
-    }, []);
+        const corners = [0, 2, 6, 8];
+        const availableCorners = corners.filter(i => emptyIndices.includes(i));
+        if (availableCorners.length > 0) {
+            // Take a random available corner
+            return availableCorners[Math.floor(Math.random() * availableCorners.length)];
+        }
+
+        const sides = [1, 3, 5, 7];
+        const availableSides = sides.filter(i => emptyIndices.includes(i));
+        if (availableSides.length > 0) {
+            // Take a random available side
+            return availableSides[Math.floor(Math.random() * availableSides.length)];
+        }
+
+        // Fallback (should not be reached in a normal game)
+        return emptyIndices[0];
+
+    }, [setIsCheating, setDialogue]);
 
     useEffect(() => {
         const winner = calculateWinner(board);
