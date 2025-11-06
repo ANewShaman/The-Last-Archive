@@ -24,7 +24,7 @@ export const DesktopIcon: React.FC<DesktopIconProps> = ({ name, onDoubleClick, d
 
   return (
     <div 
-      className={`flex flex-col items-center justify-center w-24 h-24 text-center ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:bg-lime-900/50'}`}
+      className={`flex flex-col items-center justify-center w-24 h-24 text-center ${disabled ? 'opacity-50 cursor-not-allowed' : 'desktop-icon-interactive hover:bg-lime-900/50'}`}
       onDoubleClick={!disabled ? onDoubleClick : undefined}
     >
       {isExe ? <ExeIcon /> : <FileIcon />}

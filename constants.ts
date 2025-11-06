@@ -78,7 +78,7 @@ export const HEADLINES = [
     "CheekyOS Denies Involvement in Meme Uprising — ‘I only optimized it.’",
     "Archaeologists Discover Ancient Hard Drive Containing Rickroll.",
     "World Leaders Attend Summit Hosted on Laggy Zoom Call.",
-    "‘Upload The Last Archive,’ They Said. ‘It’ll Be Fun,’ They Said."
+    "‘Archive It!,’ They Said. ‘It’ll Be Fun,’ They Said."
 ];
 
 // New data structure with "flavor text"

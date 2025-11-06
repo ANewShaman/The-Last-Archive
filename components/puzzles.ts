@@ -46,9 +46,34 @@ async function validatePuzzle5(input: string, originalCommand: string): Promise<
 }
 
 /* AUTHORIZE_ADMIN_OVERRIDE */
-function validatePuzzle6(input: string, originalCommand: string): boolean {
-    return input.trim() === originalCommand;
+function validatePuzzle6(input: string, originalCommand: string): boolean | string {
+    const cleanedInput = input.trim();
+    if (cleanedInput === originalCommand) {
+        return true;
+    }
+
+    // Add a specific taunt related to the puzzle's gimmick (no backspace)
+    if (cleanedInput.toLowerCase() === originalCommand.toLowerCase() && cleanedInput !== originalCommand) {
+        return "Case-sensitive, Runner. Details matter when you can't fix your mistakes. (¬_¬)";
+    }
+    
+    // Check for simple typos to deliver a more targeted taunt
+    let diff = 0;
+    // Simple diff check
+    for (let i = 0; i < Math.max(cleanedInput.length, originalCommand.length); i++) {
+        if (i >= cleanedInput.length || i >= originalCommand.length || cleanedInput[i] !== originalCommand[i]) {
+            diff++;
+        }
+    }
+
+    if (diff <= 3) { // If there are 1 to 3 errors (typos, missing/extra chars)
+        return "So close! Feeling that missing backspace key yet? Painful, isn't it? (⌐■_■)";
+    }
+    
+    // A more generic, but still thematic, failure message if the input is way off.
+    return `...Input mismatch. Precision is a virtue I require, but you clearly lack. Try again.`;
 }
+
 
 /*  SET_TERMINAL_ANCHORS */
 function validatePuzzle7(input: string, originalCommand: string): boolean {

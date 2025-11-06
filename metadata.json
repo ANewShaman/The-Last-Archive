@@ -1,5 +1,5 @@
 {
-  "name": "TheLastArchive",
-  "description": "A cursed desktop game where you must follow a strict protocol to upload the last archive, all while fighting against a failing, cheeky operating system.",
+  "name": "Archive It!",
+  "description": "A cursed desktop game where you must follow a strict protocol to upload a critical archive, all while fighting against a failing, cheeky operating system.",
   "requestFramePermissions": []
 }

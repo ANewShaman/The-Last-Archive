@@ -35,8 +35,16 @@ export default function ArrivalNotice({ onComplete }: { onComplete: () => void }
       <div className="gta-location">
         &gt; LOCATION: OFFLINE ARCHIVE, SECTOR-7G
       </div>
+      <div className="gta-briefing">
+        {`BRIEFING // GHOST-7
+You are a Data-Runner, one of the last couriers of the collapsed net. Your mission: infiltrate this dead-zone archive and secure a fragment of human history before it's lost to the noise.
+
+This is the big one. Archive It!. Get the data, get out.
+
+Jackpot.`}
+      </div>
       <div className="gta-title-container">
-        <h1 className="gta-main-title">THE LAST ARCHIVE</h1>
+        <h1 className="gta-main-title">ARCHIVE IT!</h1>
         <p className="gta-subtitle">SECURE THE FRAGMENT</p>
       </div>
       <div className="gta-prompt">
