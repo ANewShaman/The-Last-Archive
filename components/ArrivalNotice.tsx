@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
-export default function ArrivalNotice({ onComplete }: { onComplete: () => void }) {
+export default function ArrivalNotice({ onComplete, onSkip }: { onComplete: () => void; onSkip: () => void; }) {
   const [visible, setVisible] = useState(false);
   const [exiting, setExiting] = useState(false);
+  const [showSkipPrompt, setShowSkipPrompt] = useState(false);
+  const skippedRef = useRef(false);
 
   // Effect to trigger the entrance animation
   useEffect(() => {
@@ -10,22 +12,37 @@ export default function ArrivalNotice({ onComplete }: { onComplete: () => void }
     return () => clearTimeout(timer);
   }, []);
 
-  // Effect to handle key press for continuing
+  // Effect to show skip prompt
+  useEffect(() => {
+    const timer = setTimeout(() => {
+        if (!visible || exiting) return;
+        setShowSkipPrompt(true);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [visible, exiting]);
+
+  // Effect to handle key press for continuing or skipping
   useEffect(() => {
     if (!visible || exiting) return;
 
-    const handleKeyPress = () => {
-        setExiting(true);
-        setTimeout(onComplete, 500); // Match exit animation duration
+    const handleKeyPress = (e: KeyboardEvent) => {
+        if (skippedRef.current) return;
+
+        if (showSkipPrompt && ["x", "X", "Enter", " "].includes(e.key)) {
+            skippedRef.current = true;
+            onSkip();
+        } else {
+            setExiting(true);
+            setTimeout(onComplete, 500); // Match exit animation duration
+        }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     
-    // Cleanup function to remove the event listener
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, [visible, exiting, onComplete]);
+  }, [visible, exiting, onComplete, onSkip, showSkipPrompt]);
 
   const visibilityClass = visible ? 'visible' : '';
   const exitingClass = exiting ? 'exiting' : '';
@@ -47,6 +64,11 @@ Jackpot.`}
         <h1 className="gta-main-title">ARCHIVE IT!</h1>
         <p className="gta-subtitle">SECURE THE FRAGMENT</p>
       </div>
+       {showSkipPrompt && !exiting && (
+          <div className="skip-flash" style={{ position: 'absolute', bottom: '8rem', width: '100%' }}>
+              [PRESS X TO FAST BOOT]
+          </div>
+      )}
       <div className="gta-prompt">
         [PRESS ANY KEY]
       </div>
