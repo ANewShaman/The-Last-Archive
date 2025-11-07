@@ -10,7 +10,7 @@ export const Manual: React.FC = () => {
             <p>STEP 1: INITIATE_HANDSHAKE</p>
             <p>STEP 2: CALIBRATE_SYSTEM</p>
             <p>STEP 3: PURGE</p>
-            <p>STEP 4: VERIFY_LOG_INTEGRITY</p>
+            <p>STEP 4: (Verify the Log Integrity)</p>
             <p>STEP 5: VENT_PLASMA</p>
             <p>STEP 6: AUTHORIZE_ADMIN_OVERRIDE</p>
             <p>STEP 7: SET_TERMINAL_ANCHORS</p>
