@@ -1,0 +1,37 @@
+INITIATE_HANDSHAKE
+Prompt: The AI asks for the "digital sign-off" code \u{1F91D}.
+Answer: \u{1F91D}
+
+CALIBRATE_SYSTEM
+Prompt: The AI mentions unstable keyboard mapping (4=A, 3=E, 1=I, 0=O).
+Answer: c4l1br4t3_syst3m
+
+PURGE
+Prompt: The parser only accepts ASCII decimal values.
+Answer: 80 85 82 71 69
+
+VERIFY_LOG_INTEGRITY
+Prompt: Enter all previous successful commands, separated by spaces.
+Answer: \u{1F91D} c4l1br4t3_syst3m 80 85 82 71 69
+
+VENT_PLASMA
+Prompt: A straightforward command from the manual.
+Answer: VENT_PLASMA
+
+AUTHORIZE_ADMIN_OVERRIDE
+Prompt: The backspace key is disabled. You must type it perfectly.
+Answer: AUTHORIZE_ADMIN_OVERRIDE
+
+SET_TERMINAL_ANCHORS
+Prompt: The terminal window is drifting away.
+Answer: SET_TERMINAL_ANCHORS
+
+RUN_POWER_DIAGNOSTIC
+Prompt: Provide a checksum calculated from the length of your inputs for steps 1 & 5, plus the Kernel Panic Code (42).
+Calculation: (\u{1F91D} is 9 chars) + (VENT_PLASMA is 11 chars) + (Kernel Code is 42) = 62.
+Answer: RUN_POWER_DIAGNOSTIC 62
+
+LAUNCH_PAYLOAD
+Prompt: Attach the payload (the meme file you selected at the start).
+Answer: LAUNCH_PAYLOAD [your_selected_meme_file.ext].
+Example: If you chose the first option, the answer would be LAUNCH_PAYLOAD doge_kabosu.jpg
